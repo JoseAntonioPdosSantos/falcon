@@ -6,9 +6,7 @@ import (
 	"github.com/subosito/gotenv"
 	"log"
 	"os"
-	"path/filepath"
 	"regexp"
-	"runtime"
 	"strings"
 )
 
@@ -17,12 +15,6 @@ type FileType string
 const (
 	Env             FileType = ".env"
 	ApplicationYaml          = "application.yaml"
-)
-
-var (
-	_, b, _, _    = runtime.Caller(0)
-	rootPath      = filepath.Join(filepath.Dir(b), "../../../../..")
-	resourcesPath = filepath.Join(filepath.Dir(b), "../../../../../resources")
 )
 
 type Falcon struct {
@@ -43,8 +35,7 @@ func (f *falconBuilder) ResourcePath(resourcePath string) *falconBuilder {
 }
 
 func (f *falconBuilder) Build() Service {
-	fmt.Println("rootPath -> ", rootPath)
-	fmt.Println("resourcesPath -> ", resourcesPath)
+	fmt.Println("rootPath -> ", f.falcon.resourcePath)
 
 	if isEmpty(f.falcon.resourcePath) {
 		panic("resource path is required to load properties")
