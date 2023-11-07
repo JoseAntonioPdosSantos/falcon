@@ -35,14 +35,15 @@ func (f *falconBuilder) ResourcePath(resourcePath string) *falconBuilder {
 }
 
 func (f *falconBuilder) Build() Service {
-	fmt.Println("rootPath -> ", f.falcon.resourcePath)
-
 	if isEmpty(f.falcon.resourcePath) {
 		panic("resource path is required to load properties")
 	}
-	return &Falcon{
+	falcon := &Falcon{
 		resourcePath: f.falcon.resourcePath,
 	}
+	falcon.loadEnv()
+	falcon.configViper()
+	return falcon
 }
 
 func (f *Falcon) GetByKey(key string) string {
